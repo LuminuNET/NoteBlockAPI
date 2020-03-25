@@ -122,7 +122,7 @@ public abstract class SongPlayer {
 			com.xxmicloxx.NoteBlockAPI.CustomInstrument ci = s.getCustomInstruments()[i];
 			instruments[i] = new CustomInstrument(ci.getIndex(), ci.getName(), ci.getSoundfile());
 		}
-		song = new Song(s.getSpeed(), layerHashMap, s.getSongHeight(), s.getLength(), s.getTitle(), s.getAuthor(), s.getDescription(), s.getPath(), instruments);
+		song = new Song(s.getSpeed(), layerHashMap, s.getSongHeight(), s.getLength(), s.getTitle(), s.getAuthor(), s.getOriginalAuthor(), s.getDescription(), s.getPath(), instruments);
 		playlist = new Playlist(song);
 		
 		fadeIn = new Fade(FadeType.NONE, 60);

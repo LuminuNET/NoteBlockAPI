@@ -1,18 +1,14 @@
 package com.xxmicloxx.NoteBlockAPI;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 /**
  * @deprecated {@link com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer}
@@ -79,12 +75,12 @@ public abstract class SongPlayer {
 			layerHashMap.put(i, layer);
 		}
 		com.xxmicloxx.NoteBlockAPI.CustomInstrument[] instruments = new com.xxmicloxx.NoteBlockAPI.CustomInstrument[s.getCustomInstruments().length];
-		for (int i = 0; i < s.getCustomInstruments().length; i++){
+		for (int i = 0; i < s.getCustomInstruments().length; i++) {
 			com.xxmicloxx.NoteBlockAPI.model.CustomInstrument ci = s.getCustomInstruments()[i];
 			instruments[i] = new CustomInstrument(ci.getIndex(), ci.getName(), ci.getSoundFileName());
 		}
-		
-		return new Song(s.getSpeed(), layerHashMap, s.getSongHeight(), s.getLength(), s.getTitle(), s.getAuthor(), s.getDescription(), s.getPath(), instruments);
+
+		return new Song(s.getSpeed(), layerHashMap, s.getSongHeight(), s.getLength(), s.getTitle(), s.getAuthor(), s.getOriginalAuthor(), s.getDescription(), s.getPath(), instruments);
 	}
 
 	void update(String key, Object value){
