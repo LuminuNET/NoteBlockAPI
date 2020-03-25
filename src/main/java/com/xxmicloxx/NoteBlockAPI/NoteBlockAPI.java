@@ -1,5 +1,9 @@
 package com.xxmicloxx.NoteBlockAPI;
 
+import com.xxmicloxx.NoteBlockAPI.event.PlayerRangeStateChangeEvent;
+import com.xxmicloxx.NoteBlockAPI.event.SongDestroyingEvent;
+import com.xxmicloxx.NoteBlockAPI.event.SongEndEvent;
+import com.xxmicloxx.NoteBlockAPI.event.SongStoppedEvent;
 import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
 import com.xxmicloxx.NoteBlockAPI.utils.MathUtils;
 import com.xxmicloxx.NoteBlockAPI.utils.Updater;
@@ -135,19 +139,17 @@ public class NoteBlockAPI extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
-		
+
 		for (Plugin pl : getServer().getPluginManager().getPlugins()){
 			if (pl.getDescription().getDepend().contains("NoteBlockAPI") || pl.getDescription().getSoftDepend().contains("NoteBlockAPI")){
 				dependentPlugins.put(pl, false);
 			}
 		}
-		
-		Metrics metrics = new Metrics(this);	
-		
-		new NoteBlockPlayerMain().onEnable();
-		
+
+		Metrics metrics = new Metrics(this);
+
 		getServer().getScheduler().runTaskLater(this, new Runnable() {
-			
+
 			@Override
 			public void run() {
 				Plugin[] plugins = getServer().getPluginManager().getPlugins();
@@ -171,7 +173,7 @@ public class NoteBlockAPI extends JavaPlugin {
 
 		            }
 		        }
-		        
+
 		        metrics.addCustomChart(new Metrics.DrilldownPie("deprecated", () -> {
 			        Map<String, Map<String, Integer>> map = new HashMap<>();
 			        for (Plugin pl : dependentPlugins.keySet()){
@@ -184,9 +186,9 @@ public class NoteBlockAPI extends JavaPlugin {
 			    }));
 			}
 		}, 1);
-		
+
 		getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
@@ -198,7 +200,7 @@ public class NoteBlockAPI extends JavaPlugin {
 				}
 			}
 		}, 20*10, 20 * 60 * 60 * 24);
-		
+
 		new MathUtils();
 	}
 
@@ -206,7 +208,6 @@ public class NoteBlockAPI extends JavaPlugin {
 	public void onDisable() {    	
 		disabling = true;
 		Bukkit.getScheduler().cancelTasks(this);
-		NoteBlockPlayerMain.plugin.onDisable();
 	}
 
 	public void doSync(Runnable runnable) {
@@ -224,7 +225,7 @@ public class NoteBlockAPI extends JavaPlugin {
 	public static NoteBlockAPI getAPI(){
 		return plugin;
 	}
-	
+
 	protected void handleDeprecated(StackTraceElement[] ste){
 		int pom = 1;
 		String clazz = ste[pom].getClassName();
@@ -235,11 +236,11 @@ public class NoteBlockAPI extends JavaPlugin {
 		String[] packageParts = clazz.split("\\.");
 		ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 		plugins.addAll(dependentPlugins.keySet());
-		
+
 		ArrayList<Plugin> notResult = new ArrayList<Plugin>();
 		parts:
 		for (int i = 0; i < packageParts.length - 1; i++){
-			
+
 			for (Plugin pl : plugins){
 				if (notResult.contains(pl)){ continue;}
 				if (plugins.size() - notResult.size() == 1){
@@ -254,7 +255,7 @@ public class NoteBlockAPI extends JavaPlugin {
 			plugins.removeAll(notResult);
 			notResult.clear();
 		}
-		
+
 		plugins.removeAll(notResult);
 		notResult.clear();
 		if (plugins.size() == 1){
