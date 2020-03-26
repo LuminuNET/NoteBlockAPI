@@ -1,6 +1,6 @@
 package com.xxmicloxx.NoteBlockAPI.songplayer;
 
-import com.xxmicloxx.NoteBlockAPI.utils.NoteUtils;
+import com.xxmicloxx.NoteBlockAPI.utils.PitchUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -80,7 +80,7 @@ public class NoteBlockSongPlayer extends RangeSongPlayer {
 
 			float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
 					* ((1F / 16F) * getDistance());
-			float pitch = NoteUtils.getPitch(note);
+			float pitch = PitchUtils.getPitch(note);
 
 			if (InstrumentUtils.isCustomInstrument(note.getInstrument())) {
 				CustomInstrument instrument = song.getCustomInstruments()

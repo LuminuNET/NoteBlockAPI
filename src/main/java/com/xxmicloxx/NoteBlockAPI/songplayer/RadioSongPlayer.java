@@ -4,7 +4,7 @@ import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
 import com.xxmicloxx.NoteBlockAPI.model.*;
 import com.xxmicloxx.NoteBlockAPI.utils.CompatibilityUtils;
 import com.xxmicloxx.NoteBlockAPI.utils.InstrumentUtils;
-import com.xxmicloxx.NoteBlockAPI.utils.NoteUtils;
+import com.xxmicloxx.NoteBlockAPI.utils.PitchUtils;
 import org.bukkit.entity.Player;
 
 /**
@@ -42,7 +42,7 @@ public class RadioSongPlayer extends SongPlayer {
 			}
 
 			float volume = (layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F;
-			float pitch = NoteUtils.getPitch(note);
+			float pitch = PitchUtils.getPitch(note);
 
 			if (InstrumentUtils.isCustomInstrument(note.getInstrument())) {
 				CustomInstrument instrument = song.getCustomInstruments()

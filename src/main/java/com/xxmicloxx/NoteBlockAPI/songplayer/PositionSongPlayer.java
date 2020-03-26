@@ -1,20 +1,14 @@
 package com.xxmicloxx.NoteBlockAPI.songplayer;
 
-import com.xxmicloxx.NoteBlockAPI.utils.NoteUtils;
+import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
+import com.xxmicloxx.NoteBlockAPI.event.PlayerRangeStateChangeEvent;
+import com.xxmicloxx.NoteBlockAPI.model.*;
+import com.xxmicloxx.NoteBlockAPI.utils.CompatibilityUtils;
+import com.xxmicloxx.NoteBlockAPI.utils.InstrumentUtils;
+import com.xxmicloxx.NoteBlockAPI.utils.PitchUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;
-import com.xxmicloxx.NoteBlockAPI.event.PlayerRangeStateChangeEvent;
-import com.xxmicloxx.NoteBlockAPI.model.CustomInstrument;
-import com.xxmicloxx.NoteBlockAPI.model.Layer;
-import com.xxmicloxx.NoteBlockAPI.model.Note;
-import com.xxmicloxx.NoteBlockAPI.model.Playlist;
-import com.xxmicloxx.NoteBlockAPI.model.Song;
-import com.xxmicloxx.NoteBlockAPI.model.SoundCategory;
-import com.xxmicloxx.NoteBlockAPI.utils.CompatibilityUtils;
-import com.xxmicloxx.NoteBlockAPI.utils.InstrumentUtils;
 
 /**
  * SongPlayer created at a specified Location
@@ -42,6 +36,7 @@ public class PositionSongPlayer extends RangeSongPlayer {
 
 	/**
 	 * Gets location on which is the PositionSongPlayer playing
+	 *
 	 * @return {@link Location}
 	 */
 	public Location getTargetLocation() {
@@ -52,8 +47,7 @@ public class PositionSongPlayer extends RangeSongPlayer {
 	 * Sets location on which is the PositionSongPlayer playing
 	 */
 	public void setTargetLocation(Location targetLocation) {
-		this.targetLocation = targetLocation;
-	}
+		this.targetLocation = targetLocation; }
 
 	@Override
 	public void playTick(Player player, int tick) {
@@ -70,7 +64,7 @@ public class PositionSongPlayer extends RangeSongPlayer {
 			float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
 					* ((1F / 16F) * getDistance());
 
-			float pitch = NoteUtils.getPitch(note);
+			float pitch = PitchUtils.getPitch(note);
 
 			if (InstrumentUtils.isCustomInstrument(note.getInstrument())) {
 				CustomInstrument instrument = song.getCustomInstruments()
@@ -110,9 +104,7 @@ public class PositionSongPlayer extends RangeSongPlayer {
 	 */
 	@Override
 	public boolean isInRange(Player player) {
-		return player.getLocation().distance(targetLocation) <= getDistance();
+		return player.getLocation().distanceSquared(targetLocation) <= getDistanceSquared();
 	}
-
-	
 
 }

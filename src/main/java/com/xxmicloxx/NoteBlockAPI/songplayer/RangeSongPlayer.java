@@ -1,19 +1,17 @@
 package com.xxmicloxx.NoteBlockAPI.songplayer;
 
-import org.bukkit.entity.Player;
-
 import com.xxmicloxx.NoteBlockAPI.model.Playlist;
 import com.xxmicloxx.NoteBlockAPI.model.Song;
 import com.xxmicloxx.NoteBlockAPI.model.SoundCategory;
+import org.bukkit.entity.Player;
 
 /**
  * SongPlayer playing only in specified distance
- *
  */
-public abstract class RangeSongPlayer extends SongPlayer{
+public abstract class RangeSongPlayer extends SongPlayer {
 
-	private int distance = 16;
-	
+	private int distance = 16, distanceSquared = 32;
+
 	public RangeSongPlayer(Song song, SoundCategory soundCategory) {
 		super(song, soundCategory);
 	}
@@ -36,17 +34,23 @@ public abstract class RangeSongPlayer extends SongPlayer{
 	 */
 	public void setDistance(int distance) {
 		this.distance = distance;
+		this.distanceSquared = distance * distance;
 	}
 
 	public int getDistance() {
 		return distance;
 	}
-	
+
+	public int getDistanceSquared() {
+		return distanceSquared;
+	}
+
 	/**
-	 * Returns true if the Player is able to hear the current RangeSongPlayer 
+	 * Returns true if the Player is able to hear the current RangeSongPlayer
+	 *
 	 * @param player in range
 	 * @return ability to hear the current RangeSongPlayer
 	 */
 	public abstract boolean isInRange(Player player);
-	
+
 }

@@ -5,7 +5,7 @@ import com.xxmicloxx.NoteBlockAPI.event.PlayerRangeStateChangeEvent;
 import com.xxmicloxx.NoteBlockAPI.model.*;
 import com.xxmicloxx.NoteBlockAPI.utils.CompatibilityUtils;
 import com.xxmicloxx.NoteBlockAPI.utils.InstrumentUtils;
-import com.xxmicloxx.NoteBlockAPI.utils.NoteUtils;
+import com.xxmicloxx.NoteBlockAPI.utils.PitchUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -37,7 +37,7 @@ public class EntitySongPlayer extends RangeSongPlayer {
      */
     @Override
     public boolean isInRange(Player player) {
-        return player.getLocation().distance(entity.getLocation()) <= getDistance();
+        return player.getLocation().distanceSquared(entity.getLocation()) <= getDistanceSquared();
     }
 
     /**
@@ -77,7 +77,7 @@ public class EntitySongPlayer extends RangeSongPlayer {
 
             float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
                     * ((1F / 16F) * getDistance());
-            float pitch = NoteUtils.getPitch(note);
+            float pitch = PitchUtils.getPitch(note);
 
             if (InstrumentUtils.isCustomInstrument(note.getInstrument())) {
                 CustomInstrument instrument = song.getCustomInstruments()
