@@ -8,13 +8,15 @@ import org.bukkit.Sound;
  */
 public class InstrumentUtils {
 
+    private static final int FIRST_CUSTOM_INSTRUMENT_INDEX = Instrument.values().length;
+
 	/**
 	 * Returns the org.bukkit.Sound enum for the current server version
 	 * @param instrument
 	 * @see Sound
 	 * @return Sound enum (for the current server version)
 	 */
-	public static org.bukkit.Sound getInstrument(byte instrument) {
+	public static Sound getInstrument(byte instrument) {
         switch (instrument) {
             case 0:
                 return Sound.BLOCK_NOTE_BLOCK_HARP;
@@ -52,45 +54,6 @@ public class InstrumentUtils {
                 return Sound.BLOCK_NOTE_BLOCK_HARP;
         }
 	}
-
-    public static String getInstrumentName(byte instrument) {
-        switch (instrument) {
-            case 0:
-                return "BLOCK_NOTE_BLOCK_HARP";
-            case 1:
-                return "BLOCK_NOTE_BLOCK_BASS";
-            case 2:
-                return "BLOCK_NOTE_BLOCK_BASEDRUM";
-            case 3:
-                return "BLOCK_NOTE_BLOCK_SNARE";
-            case 4:
-                return "BLOCK_NOTE_BLOCK_HAT";
-            case 5:
-                return "BLOCK_NOTE_BLOCK_GUITAR";
-            case 6:
-                return "BLOCK_NOTE_BLOCK_FLUTE";
-            case 7:
-                return "BLOCK_NOTE_BLOCK_BELL";
-            case 8:
-                return "BLOCK_NOTE_BLOCK_CHIME";
-            case 9:
-                return "BLOCK_NOTE_BLOCK_XYLOPHONE";
-            case 10:
-                return "BLOCK_NOTE_BLOCK_IRON_XYLOPHONE";
-            case 11:
-                return "BLOCK_NOTE_BLOCK_COW_BELL";
-            case 12:
-                return "BLOCK_NOTE_BLOCK_DIDGERIDOO";
-            case 13:
-                return "BLOCK_NOTE_BLOCK_BIT";
-            case 14:
-                return "BLOCK_NOTE_BLOCK_BANJO";
-            case 15:
-                return "BLOCK_NOTE_BLOCK_PLING";
-            default:
-                return "BLOCK_NOTE_BLOCK_HARP";
-        }
-    }
 
 	/**
 	 * Returns the name of the org.bukkit.Instrument enum for the current server version
@@ -145,18 +108,12 @@ public class InstrumentUtils {
 	}
 
 	/**
-	 * Gets the first index in which a custom instrument 
+	 * Gets the first index in which a custom instrument
 	 * can be added to the existing list of instruments
 	 * @return index where an instrument can be added
 	 */
-	public static byte getCustomInstrumentFirstIndex() {
-		if (CompatibilityUtils.getServerVersion() >= 0.0114f) {
-			return 16;
-		}
-		if (CompatibilityUtils.getServerVersion() >= 0.0112f) {
-			return 10;
-		}
-		return 5;
+	public static int getCustomInstrumentFirstIndex() {
+        return FIRST_CUSTOM_INSTRUMENT_INDEX;
 	}
 
 }

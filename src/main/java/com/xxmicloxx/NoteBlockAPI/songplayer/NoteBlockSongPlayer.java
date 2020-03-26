@@ -4,6 +4,7 @@ import com.xxmicloxx.NoteBlockAPI.utils.PitchUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -14,7 +15,6 @@ import com.xxmicloxx.NoteBlockAPI.model.Layer;
 import com.xxmicloxx.NoteBlockAPI.model.Note;
 import com.xxmicloxx.NoteBlockAPI.model.Playlist;
 import com.xxmicloxx.NoteBlockAPI.model.Song;
-import com.xxmicloxx.NoteBlockAPI.model.SoundCategory;
 import com.xxmicloxx.NoteBlockAPI.utils.CompatibilityUtils;
 import com.xxmicloxx.NoteBlockAPI.utils.InstrumentUtils;
 

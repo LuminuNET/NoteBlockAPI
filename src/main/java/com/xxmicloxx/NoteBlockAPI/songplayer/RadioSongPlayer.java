@@ -5,6 +5,7 @@ import com.xxmicloxx.NoteBlockAPI.model.*;
 import com.xxmicloxx.NoteBlockAPI.utils.CompatibilityUtils;
 import com.xxmicloxx.NoteBlockAPI.utils.InstrumentUtils;
 import com.xxmicloxx.NoteBlockAPI.utils.PitchUtils;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 
 /**

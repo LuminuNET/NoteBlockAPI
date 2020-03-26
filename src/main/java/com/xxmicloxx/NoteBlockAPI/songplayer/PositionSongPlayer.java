@@ -8,6 +8,7 @@ import com.xxmicloxx.NoteBlockAPI.utils.InstrumentUtils;
 import com.xxmicloxx.NoteBlockAPI.utils.PitchUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 
 /**

@@ -10,6 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.xxmicloxx.NoteBlockAPI.model.*;
 import org.bukkit.Bukkit;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 
 import com.xxmicloxx.NoteBlockAPI.NoteBlockAPI;

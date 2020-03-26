@@ -1,23 +1,18 @@
 package com.xxmicloxx.NoteBlockAPI.utils;
 
-import java.util.ArrayList;
-
+import com.xxmicloxx.NoteBlockAPI.model.CustomInstrument;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 
-import com.xxmicloxx.NoteBlockAPI.model.CustomInstrument;
-import com.xxmicloxx.NoteBlockAPI.model.SoundCategory;
+import java.util.ArrayList;
 
 /**
  * Fields/methods for reflection &amp; version checking
  */
 public class CompatibilityUtils {
-
-	public static final String OBC_DIR = Bukkit.getServer().getClass().getPackage().getName();
-	public static final String NMS_DIR = OBC_DIR.replaceFirst("org.bukkit.craftbukkit", "net.minecraft.server");
-
 
 	private static float serverVersion = -1;
 
@@ -47,12 +42,11 @@ public class CompatibilityUtils {
 	 * @param pitch
 	 */
 	public static void playSound(Player player, Location location, String sound, SoundCategory category, float volume, float pitch, boolean stereo) {
-        final org.bukkit.SoundCategory soundCategory = org.bukkit.SoundCategory.valueOf(category.name());
         if (stereo) {
-            player.playSound(MathUtils.stereoSourceLeft(location, 2), sound, soundCategory, volume, pitch);
-            player.playSound(MathUtils.stereoSourceRight(location, 2), sound, soundCategory, volume, pitch);
+            player.playSound(MathUtils.stereoSourceLeft(location, 2), sound, category, volume, pitch);
+            player.playSound(MathUtils.stereoSourceRight(location, 2), sound, category, volume, pitch);
         } else {
-            player.playSound(location, sound, soundCategory, volume, pitch);
+            player.playSound(location, sound, category, volume, pitch);
         }
 	}
 
@@ -82,12 +76,11 @@ public class CompatibilityUtils {
 	 * @param pitch
 	 */
 	public static void playSound(Player player, Location location, Sound sound, SoundCategory category, float volume, float pitch, boolean stereo) {
-        final org.bukkit.SoundCategory soundCategory = org.bukkit.SoundCategory.valueOf(category.name());
         if (stereo) {
-            player.playSound(MathUtils.stereoSourceLeft(location, 2), sound, soundCategory, volume, pitch);
-            player.playSound(MathUtils.stereoSourceRight(location, 2), sound, soundCategory, volume, pitch);
+            player.playSound(MathUtils.stereoSourceLeft(location, 2), sound, category, volume, pitch);
+            player.playSound(MathUtils.stereoSourceRight(location, 2), sound, category, volume, pitch);
         } else {
-            player.playSound(location, sound, soundCategory, volume, pitch);
+            player.playSound(location, sound, category, volume, pitch);
         }
 	}
 

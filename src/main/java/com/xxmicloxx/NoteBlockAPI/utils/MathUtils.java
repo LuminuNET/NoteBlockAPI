@@ -4,33 +4,34 @@ import org.bukkit.Location;
 
 public class MathUtils {
 
-	private static MathUtils instance;
-	private double[] cos = new double[360];
-	private double[] sin = new double[360];
-	
-	public MathUtils(){
-		instance = this;
+	private static final double[] COS = new double[360];
+	private static final double[] SIN = new double[360];
+
+	static {
 		for (int deg = 0; deg < 360; deg++) {
-		    cos[deg] = Math.cos(Math.toRadians(deg));
-		    sin[deg] = Math.sin(Math.toRadians(deg));
+			final double radians = Math.toRadians(deg);
+			COS[deg] = Math.cos(radians);
+			SIN[deg] = Math.sin(radians);
 		}
 	}
 	
 	private static double[] getCos(){
-		return MathUtils.instance.cos;
+		return COS;
 	}
 	
 	private static double[] getSin(){
-		return MathUtils.instance.sin;
+		return SIN;
 	}
 	
 	public static Location stereoSourceLeft(Location location, float distance) {
 		float yaw = location.getYaw();
-	    return location.clone().add(-getCos()[(int) (yaw + 360) % 360] * distance, 0, -getSin()[(int) (yaw + 360) % 360] * distance);
+		final int index = (int) (yaw + 360) % 360;
+		return location.clone().add(-getCos()[index] * distance, 0, -getSin()[index] * distance);
 	}
 	public static Location stereoSourceRight(Location location, float distance) {
 	    float yaw = location.getYaw();
-	    return location.clone().add(getCos()[(int) (yaw + 360) % 360] * distance, 0, getSin()[(int) (yaw + 360) % 360] * distance);
+		final int index = (int) (yaw + 360) % 360;
+		return location.clone().add(getCos()[index] * distance, 0, getSin()[index] * distance);
 	}
 	
 }
