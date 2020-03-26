@@ -1,23 +1,13 @@
 package com.xxmicloxx.NoteBlockAPI;
 
-import com.xxmicloxx.NoteBlockAPI.event.PlayerRangeStateChangeEvent;
-import com.xxmicloxx.NoteBlockAPI.event.SongDestroyingEvent;
-import com.xxmicloxx.NoteBlockAPI.event.SongEndEvent;
-import com.xxmicloxx.NoteBlockAPI.event.SongStoppedEvent;
 import com.xxmicloxx.NoteBlockAPI.songplayer.SongPlayer;
 import com.xxmicloxx.NoteBlockAPI.utils.MathUtils;
-import com.xxmicloxx.NoteBlockAPI.utils.Updater;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -139,68 +129,6 @@ public class NoteBlockAPI extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		plugin = this;
-
-		for (Plugin pl : getServer().getPluginManager().getPlugins()){
-			if (pl.getDescription().getDepend().contains("NoteBlockAPI") || pl.getDescription().getSoftDepend().contains("NoteBlockAPI")){
-				dependentPlugins.put(pl, false);
-			}
-		}
-
-		Metrics metrics = new Metrics(this);
-
-		getServer().getScheduler().runTaskLater(this, new Runnable() {
-
-			@Override
-			public void run() {
-				Plugin[] plugins = getServer().getPluginManager().getPlugins();
-		        Type[] types = new Type[]{PlayerRangeStateChangeEvent.class, SongDestroyingEvent.class, SongEndEvent.class, SongStoppedEvent.class };
-		        for (Plugin plugin : plugins) {
-		            ArrayList<RegisteredListener> rls = HandlerList.getRegisteredListeners(plugin);
-		            for (RegisteredListener rl : rls) {
-		                Method[] methods = rl.getListener().getClass().getDeclaredMethods();
-		                for (Method m : methods) {
-		                    Type[] params = m.getParameterTypes();
-		                    param:
-		                    for (Type paramType : params) {
-		                    	for (Type type : types){
-		                    		if (paramType.equals(type)) {
-		                    			dependentPlugins.put(plugin, true);
-		                    			break param;
-		                    		}
-		                    	}
-		                    }
-		                }
-
-		            }
-		        }
-
-		        metrics.addCustomChart(new Metrics.DrilldownPie("deprecated", () -> {
-			        Map<String, Map<String, Integer>> map = new HashMap<>();
-			        for (Plugin pl : dependentPlugins.keySet()){
-			        	String deprecated = dependentPlugins.get(pl) ? "yes" : "no";
-			        	Map<String, Integer> entry = new HashMap<>();
-				        entry.put(pl.getDescription().getFullName(), 1);
-				        map.put(deprecated, entry);
-			        }
-			        return map;
-			    }));
-			}
-		}, 1);
-
-		getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					if (Updater.checkUpdate("19287", getDescription().getVersion())){
-						Bukkit.getLogger().info(String.format("[%s] New update available!", plugin.getDescription().getName()));
-					}
-				} catch (IOException e) {
-					Bukkit.getLogger().info(String.format("[%s] Cannot receive update from Spigot resource page!", plugin.getDescription().getName()));
-				}
-			}
-		}, 20*10, 20 * 60 * 60 * 24);
-
 		new MathUtils();
 	}
 
