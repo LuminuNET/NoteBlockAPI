@@ -1,7 +1,5 @@
 package com.xxmicloxx.NoteBlockAPI.utils;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
@@ -24,16 +22,6 @@ public class CompatibilityUtils {
 	private static float serverVersion = -1;
 
 	/**
-	 * Returns if SoundCategory is able to be used
-	 * @see org.bukkit.SoundCategory
-	 * @see SoundCategory
-	 * @return can use SoundCategory
-	 */
-	protected static boolean isSoundCategoryCompatible() {
-		return getServerVersion() >= 0.0111f;
-	}
-	
-	/**
 	 * Plays a sound using NMS &amp; reflection
 	 * @param player
 	 * @param location
@@ -41,10 +29,10 @@ public class CompatibilityUtils {
 	 * @param category
 	 * @param volume
 	 * @param pitch
-	 * 
+	 *
 	 * @deprecated stereo is set to false
 	 */
-	public static void playSound(Player player, Location location, String sound, 
+	public static void playSound(Player player, Location location, String sound,
 			SoundCategory category, float volume, float pitch) {
 		playSound(player, location, sound, category, volume, pitch, false);
 	}
@@ -61,10 +49,10 @@ public class CompatibilityUtils {
 	public static void playSound(Player player, Location location, String sound, SoundCategory category, float volume, float pitch, boolean stereo) {
         final org.bukkit.SoundCategory soundCategory = org.bukkit.SoundCategory.valueOf(category.name());
         if (stereo) {
-            player.playSound(location, sound, soundCategory, volume, pitch);
-        } else {
             player.playSound(MathUtils.stereoSourceLeft(location, 2), sound, soundCategory, volume, pitch);
             player.playSound(MathUtils.stereoSourceRight(location, 2), sound, soundCategory, volume, pitch);
+        } else {
+            player.playSound(location, sound, soundCategory, volume, pitch);
         }
 	}
 
@@ -76,14 +64,14 @@ public class CompatibilityUtils {
 	 * @param category
 	 * @param volume
 	 * @param pitch
-	 * 
+	 *
 	 * @deprecated stereo is set to false
 	 */
-	public static void playSound(Player player, Location location, Sound sound, 
+	public static void playSound(Player player, Location location, Sound sound,
 			SoundCategory category, float volume, float pitch) {
 		playSound(player, location, sound, category, volume, pitch, false);
 	}
-	
+
 	/**
 	 * Plays a sound using NMS &amp; reflection
 	 * @param player
@@ -96,10 +84,10 @@ public class CompatibilityUtils {
 	public static void playSound(Player player, Location location, Sound sound, SoundCategory category, float volume, float pitch, boolean stereo) {
         final org.bukkit.SoundCategory soundCategory = org.bukkit.SoundCategory.valueOf(category.name());
         if (stereo) {
-            player.playSound(location, sound, soundCategory, volume, pitch);
-        } else {
             player.playSound(MathUtils.stereoSourceLeft(location, 2), sound, soundCategory, volume, pitch);
             player.playSound(MathUtils.stereoSourceRight(location, 2), sound, soundCategory, volume, pitch);
+        } else {
+            player.playSound(location, sound, soundCategory, volume, pitch);
         }
 	}
 
