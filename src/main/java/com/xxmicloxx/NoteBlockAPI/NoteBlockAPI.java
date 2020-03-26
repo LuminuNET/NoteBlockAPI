@@ -19,13 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NoteBlockAPI extends JavaPlugin {
 
 	private static NoteBlockAPI plugin;
-	
+
 	private Map<UUID, ArrayList<SongPlayer>> playingSongs = new ConcurrentHashMap<UUID, ArrayList<SongPlayer>>();
 	private Map<UUID, Byte> playerVolume = new ConcurrentHashMap<UUID, Byte>();
 
 	private boolean disabling = false;
-	
-	private HashMap<Plugin, Boolean> dependentPlugins = new HashMap<>();
 
 	/**
 	 * Returns true if a Player is currently receiving a song
@@ -101,26 +99,21 @@ public class NoteBlockAPI extends JavaPlugin {
 	 * @return volume (byte)
 	 */
 	public static byte getPlayerVolume(UUID uuid) {
-		Byte byteObj = plugin.playerVolume.get(uuid);
-		if (byteObj == null) {
-			byteObj = 100;
-			plugin.playerVolume.put(uuid, byteObj);
-		}
-		return byteObj;
+        return plugin.playerVolume.computeIfAbsent(uuid, k -> (byte) 100);
 	}
-	
+
 	public static ArrayList<SongPlayer> getSongPlayersByPlayer(Player player){
 		return getSongPlayersByPlayer(player.getUniqueId());
 	}
-	
+
 	public static ArrayList<SongPlayer> getSongPlayersByPlayer(UUID player){
 		return plugin.playingSongs.get(player);
 	}
-	
+
 	public static void setSongPlayersByPlayer(Player player, ArrayList<SongPlayer> songs){
 		setSongPlayersByPlayer(player.getUniqueId(), songs);
 	}
-	
+
 	public static void setSongPlayersByPlayer(UUID player, ArrayList<SongPlayer> songs){
 		plugin.playingSongs.put(player, songs);
 	}
@@ -132,7 +125,7 @@ public class NoteBlockAPI extends JavaPlugin {
 	}
 
 	@Override
-	public void onDisable() {    	
+	public void onDisable() {
 		disabling = true;
 		Bukkit.getScheduler().cancelTasks(this);
 	}
@@ -148,46 +141,8 @@ public class NoteBlockAPI extends JavaPlugin {
 	public boolean isDisabling() {
 		return disabling;
 	}
-	
+
 	public static NoteBlockAPI getAPI(){
 		return plugin;
 	}
-
-	protected void handleDeprecated(StackTraceElement[] ste){
-		int pom = 1;
-		String clazz = ste[pom].getClassName();
-		while (clazz.startsWith("com.xxmicloxx.NoteBlockAPI")){
-			pom++;
-			clazz = ste[pom].getClassName();
-		}
-		String[] packageParts = clazz.split("\\.");
-		ArrayList<Plugin> plugins = new ArrayList<Plugin>();
-		plugins.addAll(dependentPlugins.keySet());
-
-		ArrayList<Plugin> notResult = new ArrayList<Plugin>();
-		parts:
-		for (int i = 0; i < packageParts.length - 1; i++){
-
-			for (Plugin pl : plugins){
-				if (notResult.contains(pl)){ continue;}
-				if (plugins.size() - notResult.size() == 1){
-					break parts;
-				}
-				String[] plParts = pl.getDescription().getMain().split("\\.");
-				if (!packageParts[i].equalsIgnoreCase(plParts[i])){
-					notResult.add(pl);
-					continue;
-				}
-			}
-			plugins.removeAll(notResult);
-			notResult.clear();
-		}
-
-		plugins.removeAll(notResult);
-		notResult.clear();
-		if (plugins.size() == 1){
-			dependentPlugins.put(plugins.get(0), true);
-		}
-	}
-	
 }

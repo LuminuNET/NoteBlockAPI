@@ -24,43 +24,6 @@ public class CompatibilityUtils {
 	private static float serverVersion = -1;
 
 	/**
-	 * Gets NMS class from given name
-	 * @param name of class (w/ package)
-	 * @return Class of given name
-	 */
-	public static Class<?> getMinecraftClass(String name) {
-		try {
-			return Class.forName(NMS_DIR + "." + name);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * Gets CraftBukkit class from given name
-	 * @param name of class (w/ package)
-	 * @return Class of given name
-	 */
-	public static Class<?> getCraftBukkitClass(String name) {
-		try {
-			return Class.forName(OBC_DIR + "." + name);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * Returns whether the version of Bukkit is or is after 1.12
-	 * @return version is after 1.12
-	 * @deprecated Compare {@link #getServerVersion()} with 0.0112f
-	 */
-	public static boolean isPost1_12() {
-		return getServerVersion() >= 0.0112f;
-	}
-
-	/**
 	 * Returns if SoundCategory is able to be used
 	 * @see org.bukkit.SoundCategory
 	 * @see SoundCategory
@@ -95,44 +58,14 @@ public class CompatibilityUtils {
 	 * @param volume
 	 * @param pitch
 	 */
-	public static void playSound(Player player, Location location, String sound, 
-			SoundCategory category, float volume, float pitch, boolean stereo) {
-		try {
-			if (isSoundCategoryCompatible()) {
-				Method method = Player.class.getMethod("playSound", Location.class, String.class, 
-						Class.forName("org.bukkit.SoundCategory"), float.class, float.class);
-				Class<? extends Enum> soundCategory = 
-						(Class<? extends Enum>) Class.forName("org.bukkit.SoundCategory");
-				Enum<?> soundCategoryEnum = Enum.valueOf(soundCategory, category.name());
-				if (!stereo){
-					method.invoke(player, location, sound, soundCategoryEnum, volume, pitch);
-				} else {
-					method.invoke(player, MathUtils.stereoSourceLeft(location, 2), sound, soundCategoryEnum, volume, pitch);
-					method.invoke(player, MathUtils.stereoSourceRight(location, 2), sound, soundCategoryEnum, volume, pitch);
-				}
-			} else {
-				Method method = Player.class.getMethod("playSound", Location.class, 
-						String.class, float.class, float.class);
-				if (!stereo){
-					method.invoke(player, location, sound, volume, pitch);
-				} else {
-					method.invoke(player, MathUtils.stereoSourceLeft(location, 2), sound, volume, pitch);
-					method.invoke(player, MathUtils.stereoSourceRight(location, 2), sound, volume, pitch);
-				}
-			}
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+	public static void playSound(Player player, Location location, String sound, SoundCategory category, float volume, float pitch, boolean stereo) {
+        final org.bukkit.SoundCategory soundCategory = org.bukkit.SoundCategory.valueOf(category.name());
+        if (stereo) {
+            player.playSound(location, sound, soundCategory, volume, pitch);
+        } else {
+            player.playSound(MathUtils.stereoSourceLeft(location, 2), sound, soundCategory, volume, pitch);
+            player.playSound(MathUtils.stereoSourceRight(location, 2), sound, soundCategory, volume, pitch);
+        }
 	}
 
 	/**
@@ -160,53 +93,14 @@ public class CompatibilityUtils {
 	 * @param volume
 	 * @param pitch
 	 */
-	public static void playSound(Player player, Location location, Sound sound, 
-			SoundCategory category, float volume, float pitch, boolean stereo) {
-		try {
-			if (isSoundCategoryCompatible()) {
-				Method method = Player.class.getMethod("playSound", Location.class, Sound.class, 
-						Class.forName("org.bukkit.SoundCategory"), float.class, float.class);
-				Class<? extends Enum> soundCategory = 
-						(Class<? extends Enum>) Class.forName("org.bukkit.SoundCategory");
-				Enum<?> soundCategoryEnum = Enum.valueOf(soundCategory, category.name());
-				if (!stereo){
-					method.invoke(player, location, sound, soundCategoryEnum, volume, pitch);
-				} else {
-					method.invoke(player, MathUtils.stereoSourceLeft(location, 2), sound, soundCategoryEnum, volume, pitch);
-					method.invoke(player, MathUtils.stereoSourceRight(location, 2), sound, soundCategoryEnum, volume, pitch);
-				}
-			} else {
-				Method method = Player.class.getMethod("playSound", Location.class, 
-						Sound.class, float.class, float.class);
-				if (!stereo){
-					method.invoke(player, location, sound, volume, pitch);
-				} else {
-					method.invoke(player, MathUtils.stereoSourceLeft(location, 2), sound, volume, pitch);
-					method.invoke(player, MathUtils.stereoSourceRight(location, 2), sound, volume, pitch);
-				}
-			}
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Gets instruments which were added post-1.12
-	 * @return ArrayList of instruments
-	 * @deprecated Use {@link #getVersionCustomInstruments(float)}
-	 */
-	public static ArrayList<CustomInstrument> get1_12Instruments(){
-		return getVersionCustomInstruments(0.0112f);
+	public static void playSound(Player player, Location location, Sound sound, SoundCategory category, float volume, float pitch, boolean stereo) {
+        final org.bukkit.SoundCategory soundCategory = org.bukkit.SoundCategory.valueOf(category.name());
+        if (stereo) {
+            player.playSound(location, sound, soundCategory, volume, pitch);
+        } else {
+            player.playSound(MathUtils.stereoSourceLeft(location, 2), sound, soundCategory, volume, pitch);
+            player.playSound(MathUtils.stereoSourceRight(location, 2), sound, soundCategory, volume, pitch);
+        }
 	}
 
 	/**

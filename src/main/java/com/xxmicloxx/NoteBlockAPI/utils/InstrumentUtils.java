@@ -1,7 +1,7 @@
 package com.xxmicloxx.NoteBlockAPI.utils;
 
-import com.xxmicloxx.NoteBlockAPI.model.Sound;
 import org.bukkit.Instrument;
+import org.bukkit.Sound;
 
 /**
  * Various methods for working with instruments
@@ -15,53 +15,82 @@ public class InstrumentUtils {
 	 * @return Sound enum (for the current server version)
 	 */
 	public static org.bukkit.Sound getInstrument(byte instrument) {
-		return org.bukkit.Sound.valueOf(getInstrumentName(instrument));
+        switch (instrument) {
+            case 0:
+                return Sound.BLOCK_NOTE_BLOCK_HARP;
+            case 1:
+                return Sound.BLOCK_NOTE_BLOCK_BASS;
+            case 2:
+                return Sound.BLOCK_NOTE_BLOCK_BASEDRUM;
+            case 3:
+                return Sound.BLOCK_NOTE_BLOCK_SNARE;
+            case 4:
+                return Sound.BLOCK_NOTE_BLOCK_HAT;
+            case 5:
+                return Sound.BLOCK_NOTE_BLOCK_GUITAR;
+            case 6:
+                return Sound.BLOCK_NOTE_BLOCK_FLUTE;
+            case 7:
+                return Sound.BLOCK_NOTE_BLOCK_BELL;
+            case 8:
+                return Sound.BLOCK_NOTE_BLOCK_CHIME;
+            case 9:
+                return Sound.BLOCK_NOTE_BLOCK_XYLOPHONE;
+            case 10:
+                return Sound.BLOCK_NOTE_BLOCK_IRON_XYLOPHONE;
+            case 11:
+                return Sound.BLOCK_NOTE_BLOCK_COW_BELL;
+            case 12:
+                return Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO;
+            case 13:
+                return Sound.BLOCK_NOTE_BLOCK_BIT;
+            case 14:
+                return Sound.BLOCK_NOTE_BLOCK_BANJO;
+            case 15:
+                return Sound.BLOCK_NOTE_BLOCK_PLING;
+            default:
+                return Sound.BLOCK_NOTE_BLOCK_HARP;
+        }
 	}
 
-	/**
-	 * Returns the name of the org.bukkit.Sound enum for the current server version
-	 * @param instrument
-	 * @see Sound
-	 * @return Sound enum name (for the current server version)
-	 */
-	public static String getInstrumentName(byte instrument) {
-		switch (instrument) {
-			case 0:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_HARP").name();
-			case 1:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_BASS").name();
-			case 2:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_BASEDRUM").name();
-			case 3:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_SNARE").name();
-			case 4:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_HAT").name();
-			case 5:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_GUITAR").name();
-			case 6:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_FLUTE").name();
-			case 7:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_BELL").name();
-			case 8:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_CHIME").name();
-			case 9:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_XYLOPHONE").name();
-			case 10:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_IRON_XYLOPHONE").name();
-			case 11:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_COW_BELL").name();
-			case 12:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_DIDGERIDOO").name();
-			case 13:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_BIT").name();
-			case 14:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_BANJO").name();
-			case 15:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_PLING").name();
-			default:
-				return Sound.getFromBukkitName("BLOCK_NOTE_BLOCK_HARP").name();
-		}
-}
+    public static String getInstrumentName(byte instrument) {
+        switch (instrument) {
+            case 0:
+                return "BLOCK_NOTE_BLOCK_HARP";
+            case 1:
+                return "BLOCK_NOTE_BLOCK_BASS";
+            case 2:
+                return "BLOCK_NOTE_BLOCK_BASEDRUM";
+            case 3:
+                return "BLOCK_NOTE_BLOCK_SNARE";
+            case 4:
+                return "BLOCK_NOTE_BLOCK_HAT";
+            case 5:
+                return "BLOCK_NOTE_BLOCK_GUITAR";
+            case 6:
+                return "BLOCK_NOTE_BLOCK_FLUTE";
+            case 7:
+                return "BLOCK_NOTE_BLOCK_BELL";
+            case 8:
+                return "BLOCK_NOTE_BLOCK_CHIME";
+            case 9:
+                return "BLOCK_NOTE_BLOCK_XYLOPHONE";
+            case 10:
+                return "BLOCK_NOTE_BLOCK_IRON_XYLOPHONE";
+            case 11:
+                return "BLOCK_NOTE_BLOCK_COW_BELL";
+            case 12:
+                return "BLOCK_NOTE_BLOCK_DIDGERIDOO";
+            case 13:
+                return "BLOCK_NOTE_BLOCK_BIT";
+            case 14:
+                return "BLOCK_NOTE_BLOCK_BANJO";
+            case 15:
+                return "BLOCK_NOTE_BLOCK_PLING";
+            default:
+                return "BLOCK_NOTE_BLOCK_HARP";
+        }
+    }
 
 	/**
 	 * Returns the name of the org.bukkit.Instrument enum for the current server version
@@ -70,7 +99,8 @@ public class InstrumentUtils {
 	 */
 	public static Instrument getBukkitInstrument(byte instrument) {
 		switch (instrument) {
-			case 0:
+            default:
+            case 0:
 				return Instrument.PIANO;
 			case 1:
 				return Instrument.BASS_GUITAR;
@@ -79,45 +109,31 @@ public class InstrumentUtils {
 			case 3:
 				return Instrument.SNARE_DRUM;
 			case 4:
-				return Instrument.STICKS;
-			default: {
-				if (CompatibilityUtils.getServerVersion() >= 0.0112f) {
-					switch (instrument) {
-						case 5:
-							return Instrument.valueOf("GUITAR");
-						case 6:
-							return Instrument.valueOf("FLUTE");
-						case 7:
-							return Instrument.valueOf("BELL");
-						case 8:
-							return Instrument.valueOf("CHIME");
-						case 9:
-							return Instrument.valueOf("XYLOPHONE");
-						default: {
-							if (CompatibilityUtils.getServerVersion() >= 0.0114f) {
-								switch (instrument) {
-									case 10:
-										return Instrument.valueOf("IRON_XYLOPHONE");
-									case 11:
-										return Instrument.valueOf("COW_BELL");
-									case 12:
-										return Instrument.valueOf("DIDGERIDOO");
-									case 13:
-										return Instrument.valueOf("BIT");
-									case 14:
-										return Instrument.valueOf("BANJO");
-									case 15:
-										return Instrument.valueOf("PLING");
-								}
-							}
-							return Instrument.PIANO;
-						}
-					}
-				}
-				return Instrument.PIANO;
-			}
-		}
-	}
+                return Instrument.STICKS;
+            case 5:
+                return Instrument.GUITAR;
+            case 6:
+                return Instrument.FLUTE;
+            case 7:
+                return Instrument.BELL;
+            case 8:
+                return Instrument.CHIME;
+            case 9:
+                return Instrument.XYLOPHONE;
+            case 10:
+                return Instrument.IRON_XYLOPHONE;
+            case 11:
+                return Instrument.COW_BELL;
+            case 12:
+                return Instrument.DIDGERIDOO;
+            case 13:
+                return Instrument.BIT;
+            case 14:
+                return Instrument.BANJO;
+            case 15:
+                return Instrument.PLING;
+        }
+    }
 
 	/**
 	 * If true, the byte given represents a custom instrument

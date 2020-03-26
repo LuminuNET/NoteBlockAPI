@@ -90,4 +90,24 @@ public class Note {
 
 		this.velocity = velocity;
 	}
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Note note = (Note) o;
+        if (instrument != note.instrument) return false;
+        if (key != note.key) return false;
+        if (velocity != note.velocity) return false;
+        return pitch == note.pitch;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = instrument;
+        result = 31 * result + key;
+        result = 31 * result + velocity;
+        result = 31 * result + pitch;
+        return result;
+    }
 }

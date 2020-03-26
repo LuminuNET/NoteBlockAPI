@@ -19,10 +19,6 @@
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
-		<repository>
-			<id>CodeMC</id>
-			<url>https://repo.codemc.org/repository/maven-public</url>
-		</repository>
 	</repositories>
 
 	<dependencies>
@@ -51,15 +47,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<relocations>
-						<relocation>
-							<pattern>org.bstats</pattern>
-							<shadedPattern>com.xxmicloxx.NoteBlockAPI</shadedPattern>
-						</relocation>
-					</relocations>
-				</configuration>
+				<version>3.2.2</version>
 				<executions>
 					<execution>
 						<phase>package</phase>

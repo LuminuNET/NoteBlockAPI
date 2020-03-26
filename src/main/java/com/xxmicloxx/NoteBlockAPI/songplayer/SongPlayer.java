@@ -46,7 +46,7 @@ public abstract class SongPlayer {
 	protected Map<Song, Boolean> songQueue = new ConcurrentHashMap<>(); //True if already played
 
 	private final Lock lock = new ReentrantLock();
-	private Random rng = new Random();
+	private static final Random rng = new Random();
 
 	protected NoteBlockAPI plugin;
 
@@ -238,17 +238,15 @@ public abstract class SongPlayer {
 									songQueue.put(song, true);
 									checkPlaylistQueue();
 									ArrayList<Song> left = new ArrayList<>();
-									for (Song s : songQueue.keySet()) {
-										if (!songQueue.get(s)) {
-											left.add(s);
+									for (Map.Entry<Song, Boolean> entry : songQueue.entrySet()) {
+										if (!entry.getValue()) {
+											left.add(entry.getKey());
 										}
 									}
 
-									if (left.size() == 0) {
+									if (left.isEmpty()) {
 										left.addAll(songQueue.keySet());
-										for (Song s : songQueue.keySet()) {
-											songQueue.put(s, false);
-										}
+                                        songQueue.replaceAll((s, v) -> false);
 										song = left.get(rng.nextInt(left.size()));
 										actualSong = playlist.getIndex(song);
 										if (repeat == RepeatMode.ALL) {
@@ -366,8 +364,7 @@ public abstract class SongPlayer {
 	 * @return list of Player UUIDs
 	 */
 	public Set<UUID> getPlayerUUIDs() {
-		Set<UUID> uuids = new HashSet<>();
-		uuids.addAll(playerList.keySet());
+        Set<UUID> uuids = new HashSet<>(playerList.keySet());
 		return Collections.unmodifiableSet(uuids);
 	}
 
