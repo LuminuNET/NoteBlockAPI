@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
  */
 public abstract class RangeSongPlayer extends SongPlayer {
 
-	private int distance = 16, distanceSquared = 32;
+	private int distance = 16, distanceSquared = distance * distance;
 
 	public RangeSongPlayer(Song song, SoundCategory soundCategory) {
 		super(song, soundCategory);
