@@ -228,12 +228,7 @@ public abstract class SongPlayer {
 							fadeIn.setFadeDone(0);
 							fadeOut.setFadeDone(0);
 							if (repeat == RepeatMode.ONE){
-								SongLoopEvent event = new SongLoopEvent(this);
-								plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
-
-								if (!event.isCancelled()) {
-									continue;
-								}
+							    continue;
 							} else {
 								if (random) {
 									songQueue.put(song, true);
@@ -251,52 +246,35 @@ public abstract class SongPlayer {
 										song = left.get(rng.nextInt(left.size()));
 										actualSong = playlist.getIndex(song);
 										if (repeat == RepeatMode.ALL) {
-											SongLoopEvent event = new SongLoopEvent(this);
-											plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
-
-											if (!event.isCancelled()) {
-												continue;
-											}
+										    continue;
 										}
 									} else {
 										song = left.get(rng.nextInt(left.size()));
 										actualSong = playlist.getIndex(song);
-
-										SongNextEvent event = new SongNextEvent(this);
-										plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
 										continue;
 									}
 								} else {
 									if (playlist.hasNext(actualSong)) {
 										actualSong++;
 										song = playlist.get(actualSong);
-										SongNextEvent event = new SongNextEvent(this);
-										plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
 										continue;
 									} else {
 										actualSong = 0;
 										song = playlist.get(actualSong);
 										if (repeat == RepeatMode.ALL) {
-											SongLoopEvent event = new SongLoopEvent(this);
-											plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
-
-											if (!event.isCancelled()) {
-												continue;
-											}
+										    continue;
 										}
 									}
 								}
 							}
 							playing = false;
-							SongEndEvent event = new SongEndEvent(this);
-							plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
 							if (autoDestroy) {
 								destroy();
 							}
 							continue;
 						}
 
-						plugin.doSync(() -> {
+						//plugin.doSync(() -> { // locked anyways
 							for (UUID uuid : playerList.keySet()) {
 								Player player = Bukkit.getPlayer(uuid);
 								if (player == null) {
@@ -305,7 +283,7 @@ public abstract class SongPlayer {
 								}
 								playTick(player, tick);
 							}
-						});
+						//});
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -439,12 +417,6 @@ public abstract class SongPlayer {
 	public void destroy() {
 		lock.lock();
 		try {
-			SongDestroyingEvent event = new SongDestroyingEvent(this);
-			plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
-			//Bukkit.getScheduler().cancelTask(threadId);
-			if (event.isCancelled()) {
-				return;
-			}
 			destroyed = true;
 			playing = false;
 			setTick((short) -1);
@@ -467,10 +439,6 @@ public abstract class SongPlayer {
 	 */
 	public void setPlaying(boolean playing) {
 		this.playing = playing;
-		if (!playing) {
-			SongStoppedEvent event = new SongStoppedEvent(this);
-			plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
-		}
 	}
 
 	/**
@@ -517,8 +485,6 @@ public abstract class SongPlayer {
 			songs.remove(this);
 			NoteBlockAPI.setSongPlayersByPlayer(player, songs);
 			if (playerList.isEmpty() && autoDestroy) {
-				SongEndEvent event = new SongEndEvent(this);
-				plugin.doSync(() -> Bukkit.getPluginManager().callEvent(event));
 				destroy();
 			}
 		} finally {

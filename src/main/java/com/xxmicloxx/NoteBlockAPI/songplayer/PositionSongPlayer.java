@@ -52,7 +52,7 @@ public class PositionSongPlayer extends RangeSongPlayer {
 
 	@Override
 	public void playTick(Player player, int tick) {
-		if (!player.getWorld().getName().equals(targetLocation.getWorld().getName())) {
+        if (!player.getWorld().equals(targetLocation.getWorld())) {
 			return; // not in same world
 		}
 
@@ -62,7 +62,7 @@ public class PositionSongPlayer extends RangeSongPlayer {
 			Note note = layer.getNote(tick);
 			if (note == null) continue;
 
-			float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_00_00_00F)
+			float volume = ((layer.getVolume() * (int) this.volume * (int) playerVolume * note.getVelocity()) / 100_000_000F)
 					* ((1F / 16F) * getDistance());
 
 			float pitch = PitchUtils.getPitch(note);
@@ -87,12 +87,12 @@ public class PositionSongPlayer extends RangeSongPlayer {
 			if (isInRange(player)) {
 				if (!this.playerList.get(player.getUniqueId())) {
 					playerList.put(player.getUniqueId(), true);
-					Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, true));
+					//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, true));
 				}
 			} else {
 				if (this.playerList.get(player.getUniqueId())) {
 					playerList.put(player.getUniqueId(), false);
-					Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, false));
+					//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, false));
 				}
 			}
 		}
@@ -105,7 +105,8 @@ public class PositionSongPlayer extends RangeSongPlayer {
 	 */
 	@Override
 	public boolean isInRange(Player player) {
-		return player.getLocation().distanceSquared(targetLocation) <= getDistanceSquared();
+        Location location = player.getLocation();
+        return location.getWorld().equals(targetLocation.getWorld()) && location.distanceSquared(targetLocation) <= getDistanceSquared();
 	}
 
 }

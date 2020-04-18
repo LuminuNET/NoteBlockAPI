@@ -101,12 +101,12 @@ public class NoteBlockSongPlayer extends RangeSongPlayer {
 			if (isInRange(player)) {
 				if (!this.playerList.get(player.getUniqueId())) {
 					playerList.put(player.getUniqueId(), true);
-					Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, true));
+					//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, true));
 				}
 			} else {
 				if (this.playerList.get(player.getUniqueId())) {
 					playerList.put(player.getUniqueId(), false);
-					Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, false));
+					//Bukkit.getPluginManager().callEvent(new PlayerRangeStateChangeEvent(this, player, false));
 				}
 			}
 		}
